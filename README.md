@@ -16,6 +16,6 @@ The first columns are commun to all tables although the sample list may vary in 
 
   - Fatty acids are reported as the area of the FID signal correponding to each fatty acid. Fatty acid are annotated in the form Ca.bwc where a refers to the number of carbons, b to the number of double bounds and c to the position of the first double bound from the end of chain.
 
-  - Pigments are reported as absolute concentrations in mg per g of dry material.
+  - Pigments are reported as the area of the DAD signal corresponding to each pigment.
   
   - Stable isotopes are reported relative to authentic standards.
