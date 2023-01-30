@@ -10,12 +10,12 @@ The first columns are commun to all tables although the sample list may vary in 
 
 - splMass refers to the weight of sample that was used to conduct the analysis.
 
-- StdC23 (only in the fatty acid table) refers to the amount of C23 standard added to the sample (in ug).
 
-  - Amino acids are reported as % of total amino acids.
+- Amino acids are reported as % of total amino acids.
 
-  - Fatty acids are reported as the area of the FID signal correponding to each fatty acid. Fatty acid are annotated in the form Ca.bwc where a refers to the number of carbons, b to the number of double bounds and c to the position of the first double bound from the end of chain.
+- Fatty acids are reported as the area of the FID signal correponding to each fatty acid. Fatty acid are annotated in the form Ca.bwc where a refers to the number of carbons, b to the number of double bounds and c to the position of the first double bound from the end of chain.
+    - StdC23 (only in the fatty acid table) refers to the amount of C23 standard added to the sample (in ug).
 
-  - Pigments are reported as the area of the DAD signal corresponding to each pigment.
+- Pigments are reported as the area of the DAD signal corresponding to each pigment.
   
-  - Stable isotopes are reported relative to authentic standards.
+- Stable isotopes are reported relative to authentic standards.
