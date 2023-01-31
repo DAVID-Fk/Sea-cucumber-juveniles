@@ -17,7 +17,7 @@ library(factoextra)
 Loading the data
 ----------------
 
-We load growth data, pigments, amino acid, fatty acid and stable isotope data from the GitHub server. For details on line and column headings please check the readme file.
+We load growth, pigments, amino acid, fatty acid and stable isotope data from the GitHub server. For details on line and column headings please check the readme file.
 
 ``` r
 growth <- read.csv("https://raw.githubusercontent.com/DAVID-Fk/Sea-cucumber-juveniles/main/GrowthHoloFarm.csv", sep=",", header=T)
@@ -146,11 +146,13 @@ Summary of pigments table
 -------------------------
 
 ``` r
-# Lets group main pigments and their derivatives
+# Let's group main pigments and their derivatives
+
 pigconc2=cbind(pigconc[,2], rowSums(pigconc[,c(1,3,4)]), pigconc[,c(5:7)], rowSums(pigconc[,c(8:9)]), pigconc[,c(10:11)], rowSums(pigconc[,c(12:16)]), rowSums(pigconc[,c(17:20)]), rowSums(pigconc[,c(21:23)]), rowSums(pigconc[,c(24:25)]))
 names(pigconc2)=c("Fuco", "Fuco like", "Diadino", "Diato", "Lutein", "Zeax", "Cantha", "Chloro-b", "B-car", "Pheopb-a", "Chloro-a", "Pheopt-a")
 
-# Lets edit a summary table
+# Let's edit a summary table
+
 summaryPIG=data.frame(M=aggregate(cbind(pigconc2, totpig), by=list(pig$condition), mean), SD=aggregate(cbind(pigconc2, totpig), by=list(pig$condition), sd), LENGTH=aggregate(cbind(pigconc2, totpig), by=list(pig$condition), length))
 ```
 
@@ -168,20 +170,21 @@ Means and standard deviations
 -----------------------------
 
 ``` r
-# Lets define grouping factors
+# Let's define grouping factors
+
 AAcond=as.factor(substring(AA[,1], 8, nchar(AA[,1])))
 AAcond=factor(AAcond, levels=c("Ea","Eo","Po","Im", "Wild"))
 FAcond=as.factor(substring(FA[,1], 8, nchar(FA[,1])))
 FAcond=factor(FAcond, levels=c("Ea","Eo","Po","Im", "Wild"))
   
-# Absolute fatty acids concentration
+# Absolute fatty acid concentrations
 
 FAconc=FA[,-c(1:3, which(colnames(FA)=="C23.0"))]/FA[,which(colnames(FA)=="C23.0")]*FA[,which(colnames(FA)=="StdC23")]/FA[,which(colnames(FA)=="splMass")]
 totFA=rowSums(FAconc)
   
 rownames(FAconc)=FA[,1]
 
-# Lets evidence statistical differences on total AA and total FA
+# Let's evidence statistical differences on total AA and total FA
 
 waerden.test(AA$PrProt, AAcond, console=T)
 ```
@@ -268,7 +271,11 @@ Summary table
 -------------
 
 ``` r
+#Let's group essential amino acids
+
 EAA=rowSums(AA[, c(which(colnames(AA)=="His"), which(colnames(AA)=="Ile"), which(colnames(AA)=="Leu"), which(colnames(AA)=="Lys"), which(colnames(AA)=="Met"), which(colnames(AA)=="Phe"), which(colnames(AA)=="Thr"), which(colnames(AA)=="Val"))])
+
+#Let's edit a summary table
 
 summaryAA=data.frame(M=aggregate(cbind(AA[,-c(1:3)], EAA, AA$PrProt), by=list(AAcond), mean), SD=aggregate(cbind(AA[,-c(1:3)], EAA, AA$PrProt), by=list(AAcond), sd), LENGTH=aggregate(cbind(AA[,-c(1:3)], EAA, AA$PrProt), by=list(AAcond), length))
 ```
@@ -287,9 +294,11 @@ Summary Table
 -------------
 
 ``` r
-#Lets convert absolute concentrations to relative abundances
+#Let's convert absolute concentrations to relative abundances
 
 FAprct=FAconc/rowSums(FAconc)*100
+
+#Let's define categories of FA
   
 brFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C15.0iso"), which(colnames(FAprct)=="C15.0anteiso"), which(colnames(FAprct)=="C16.0iso"))])
 SFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C14.0"), which(colnames(FAprct)=="C15.0"), which(colnames(FAprct)=="C16.0"), which(colnames(FAprct)=="C18.0"), which(colnames(FAprct)=="C19.0"),which(colnames(FAprct)=="C20.0"), which(colnames(FAprct)=="C21.0"), which(colnames(FAprct)=="C22.0"), which(colnames(FAprct)=="C24.0"))])
@@ -299,6 +308,8 @@ w3=rowSums(FAprct[, c(which(colnames(FAprct)=="C18.3w3"), which(colnames(FAprct)
 w6=rowSums(FAprct[, c(which(colnames(FAprct)=="C18.2w6"), which(colnames(FAprct)=="C20.2w6"), which(colnames(FAprct)=="C20.4w6"), which(colnames(FAprct)=="C22.5w6"))])
 LCMUFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C20.1w9"), which(colnames(FAprct)=="C20.1w7"), which(colnames(FAprct)=="C22.1w11"), which(colnames(FAprct)=="C22.1w9"), which(colnames(FAprct)=="C23.1w9"), which(colnames(FAprct)=="C24.1w9"))])
 MUFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C16.1w7"), which(colnames(FAprct)=="C18.1w9"), which(colnames(FAprct)=="C18.1w7"), which(colnames(FAprct)=="C20.1w9"), which(colnames(FAprct)=="C20.1w7"), which(colnames(FAprct)=="C22.1w11"), which(colnames(FAprct)=="C22.1w9"), which(colnames(FAprct)=="C23.1w9"), which(colnames(FAprct)=="C24.1w9"))])
+
+# Let's edit a summary table
 
 summaryFA=data.frame(M=aggregate(cbind(FAprct, brFA, SFA, MUFA, LCMUFA, PUFA, HUFA, w3, w6, totFA) , by=list(FAcond), mean), SD=aggregate(cbind(FAprct, brFA, SFA, MUFA, LCMUFA, PUFA, HUFA, w3, w6, totFA), by=list(FAcond),sd), LE=aggregate(cbind(FAprct, brFA, SFA, MUFA, LCMUFA, PUFA, HUFA, w3, w6, totFA), by=list(FAcond),length))
 ```
