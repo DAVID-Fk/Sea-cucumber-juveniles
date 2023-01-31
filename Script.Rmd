@@ -54,7 +54,7 @@ SI <- read.csv("https://raw.githubusercontent.com/DAVID-Fk/Sea-cucumber-juvenile
 tapply(growth$Idweight, paste(growth$Origin, growth$Time), mean)
 tapply(growth$Idweight, paste(growth$Origin, growth$Time), sd)
 
-#Specific growth rates calculation
+# Specific growth rates calculation
 
 SGRplo1=log(mean(growth$Idweight[growth$Origin=="Plouguerneau" & growth$Time=="J133"])/mean(growth$Idweight[growth$Origin=="Plouguerneau" & growth$Time=="J0"]))*100/133
 
@@ -248,11 +248,11 @@ waerden.test(totFA, FAcond, console=T)
 
 ```{r}
 
-#Let's group essential amino acids
+# Let's group essential amino acids
 
 EAA=rowSums(AA[, c(which(colnames(AA)=="His"), which(colnames(AA)=="Ile"), which(colnames(AA)=="Leu"), which(colnames(AA)=="Lys"), which(colnames(AA)=="Met"), which(colnames(AA)=="Phe"), which(colnames(AA)=="Thr"), which(colnames(AA)=="Val"))])
 
-#Let's edit a summary table
+# Let's edit a summary table
 
 summaryAA=data.frame(M=aggregate(cbind(AA[,-c(1:3)], EAA, AA$PrProt), by=list(AAcond), mean), SD=aggregate(cbind(AA[,-c(1:3)], EAA, AA$PrProt), by=list(AAcond), sd), LENGTH=aggregate(cbind(AA[,-c(1:3)], EAA, AA$PrProt), by=list(AAcond), length))
 ```
