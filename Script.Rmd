@@ -305,11 +305,11 @@ Note that the figure was further modified with a vectorial graphics editor to av
  
 ```{r}
 
-#Let's convert absolute concentrations to relative abundances
+# Let's convert absolute concentrations to relative abundances
 
 FAprct=FAconc/rowSums(FAconc)*100
 
-#Let's define categories of FA
+# Let's define categories of FA
   
 brFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C15.0iso"), which(colnames(FAprct)=="C15.0anteiso"), which(colnames(FAprct)=="C16.0iso"))])
 SFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C14.0"), which(colnames(FAprct)=="C15.0"), which(colnames(FAprct)=="C16.0"), which(colnames(FAprct)=="C18.0"), which(colnames(FAprct)=="C19.0"),which(colnames(FAprct)=="C20.0"), which(colnames(FAprct)=="C21.0"), which(colnames(FAprct)=="C22.0"), which(colnames(FAprct)=="C24.0"))])
@@ -371,3 +371,44 @@ summaryFA=data.frame(M=aggregate(cbind(FAprct, brFA, SFA, MUFA, LCMUFA, PUFA, HU
 Note that the figure was further modified with a vectorial graphics editor to avoid labels superposition
 
 
+
+# Stable isotopes
+```{r}
+# Let's identify grouping factors
+tissue=as.factor(substring(SI[,1], 1, 2))
+condition=as.factor(substring(SI[,1], 8, nchar(SI[,1])))
+
+# Let's calculate mean values and standard deviations for d13C
+
+tapply(SI$d13C, paste(tissue, condition), mean)
+tapply(SI$d13C, paste(tissue, condition), sd)
+
+# Let's calculate mean values and standard deviations for d15N
+
+tapply(SI$d15N, paste(tissue, condition), mean)
+tapply(SI$d15N, paste(tissue, condition), sd)
+
+```
+
+## Graphical representation (biplot 13C-15N)
+
+```{r echo=FALSE, fig.width=7.5, fig.height=6, fig.align="center"}
+
+  par(las=1, mar=c(5,5,1,2), bty="n", mfrow=c(1,1), cex.lab=1.5)
+
+  plot(SI$d13C, SI$d15N, bty="n", xlim=c(-20,-13), ylim=c(8,15.1), xlab=expression(paste(delta^13, "C")), ylab=expression(paste(delta^15, "N")), pch=c(25,23,22)[tissue], bg=c("grey20", "grey80", "white")[as.factor(SI$origin)], col="grey40", cex=1.2)
+  
+  a=ordihull(cbind(SI$d13C, SI$d15N), groups=paste(condition, tissue, SI$origin), lty=4, label=F, display=c("sites"))
+  centroid=t(summary(a))
+  var=data.frame(do.call("rbind", strsplit(rownames(centroid), " ", fixed=F)))  
+
+  rect(xright=centroid[,1]+0.45, ybottom=centroid[,2]-0.35, xleft=centroid[,1]-0.45, ytop=centroid[,2]+0.35, col=adjustcolor("white", alpha=0.7), border="grey")
+  text(centroid, labels=var[,1], font=2)
+  
+  legend("topleft", legend=c("Sea ranched", "Indoor farmed", "Wild specimen"), pch=23, col="grey40", text.col="black", pt.bg=c("grey80", "grey20", "white"), bty="n", pt.cex=2, inset=c(0.02, 0.01))
+
+  legend("bottomleft" , legend=c("Body wall", "Stomach content", "Feed"), bty="n", pch=c(23, 22, 25), pt.bg="white", col="grey40", pt.cex=1.8, cex=0.9, inset=c(0.02, 0.03))
+
+  legend("bottomright", legend=paste("n =", nrow(SI)), bty="n", pt.cex=2)
+
+```

@@ -296,11 +296,11 @@ Summary Table
 -------------
 
 ``` r
-#Let's convert absolute concentrations to relative abundances
+# Let's convert absolute concentrations to relative abundances
 
 FAprct=FAconc/rowSums(FAconc)*100
 
-#Let's define categories of FA
+# Let's define categories of FA
   
 brFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C15.0iso"), which(colnames(FAprct)=="C15.0anteiso"), which(colnames(FAprct)=="C16.0iso"))])
 SFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C14.0"), which(colnames(FAprct)=="C15.0"), which(colnames(FAprct)=="C16.0"), which(colnames(FAprct)=="C18.0"), which(colnames(FAprct)=="C19.0"),which(colnames(FAprct)=="C20.0"), which(colnames(FAprct)=="C21.0"), which(colnames(FAprct)=="C22.0"), which(colnames(FAprct)=="C24.0"))])
@@ -322,3 +322,47 @@ Principal component analysis on fatty acid compositions of body wall
 <img src="Script_files/figure-markdown_github/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
 
 Note that the figure was further modified with a vectorial graphics editor to avoid labels superposition
+
+Stable isotopes
+===============
+
+``` r
+# Let's identify grouping factors
+tissue=as.factor(substring(SI[,1], 1, 2))
+condition=as.factor(substring(SI[,1], 8, nchar(SI[,1])))
+
+# Let's calculate mean values and standard deviations for d13C
+
+tapply(SI$d13C, paste(tissue, condition), mean)
+```
+
+    ##   Al Im   BW Ea   BW Eo   BW Im   BW Po BW Wild   SC Im 
+    ## -13.665 -15.620 -18.656 -13.250 -17.840 -15.886 -14.410
+
+``` r
+tapply(SI$d13C, paste(tissue, condition), sd)
+```
+
+    ##      Al Im      BW Ea      BW Eo      BW Im      BW Po    BW Wild      SC Im 
+    ## 0.04949747 0.87900512 0.51007843 0.68322763 1.29682304 0.30402303 0.71295161
+
+``` r
+# Let's calculate mean values and standard deviations for d15N
+
+tapply(SI$d15N, paste(tissue, condition), mean)
+```
+
+    ##   Al Im   BW Ea   BW Eo   BW Im   BW Po BW Wild   SC Im 
+    ##  11.890   9.036  10.574  13.880  11.058  11.326  12.732
+
+``` r
+tapply(SI$d15N, paste(tissue, condition), sd)
+```
+
+    ##      Al Im      BW Ea      BW Eo      BW Im      BW Po    BW Wild      SC Im 
+    ## 0.02828427 0.56283212 0.30907928 1.10097684 0.45455473 0.33440993 0.59145583
+
+Graphical representation (biplot 13C-15N)
+-----------------------------------------
+
+<img src="Script_files/figure-markdown_github/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
