@@ -17,7 +17,9 @@ library(factoextra)
 Loading the data
 ----------------
 
-We load growth, pigments, amino acid, fatty acid and stable isotope data from the GitHub server. For details on line and column headings please check the readme file.
+We load growth, pigments, amino acid, fatty acid and stable isotope data from the GitHub server.
+
+For details on line and column headings please check the readme file.
 
 ``` r
 growth <- read.csv("https://raw.githubusercontent.com/DAVID-Fk/Sea-cucumber-juveniles/main/GrowthHoloFarm.csv", sep=",", header=T)
@@ -55,7 +57,7 @@ tapply(growth$Idweight, paste(growth$Origin, growth$Time), sd)
     ##        7.05105213
 
 ``` r
-#Specific growth rates calculation
+# Specific growth rates calculation
 
 SGRplo1=log(mean(growth$Idweight[growth$Origin=="Plouguerneau" & growth$Time=="J133"])/mean(growth$Idweight[growth$Origin=="Plouguerneau" & growth$Time=="J0"]))*100/133
 
@@ -271,11 +273,11 @@ Summary table
 -------------
 
 ``` r
-#Let's group essential amino acids
+# Let's group essential amino acids
 
 EAA=rowSums(AA[, c(which(colnames(AA)=="His"), which(colnames(AA)=="Ile"), which(colnames(AA)=="Leu"), which(colnames(AA)=="Lys"), which(colnames(AA)=="Met"), which(colnames(AA)=="Phe"), which(colnames(AA)=="Thr"), which(colnames(AA)=="Val"))])
 
-#Let's edit a summary table
+# Let's edit a summary table
 
 summaryAA=data.frame(M=aggregate(cbind(AA[,-c(1:3)], EAA, AA$PrProt), by=list(AAcond), mean), SD=aggregate(cbind(AA[,-c(1:3)], EAA, AA$PrProt), by=list(AAcond), sd), LENGTH=aggregate(cbind(AA[,-c(1:3)], EAA, AA$PrProt), by=list(AAcond), length))
 ```

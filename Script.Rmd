@@ -31,6 +31,7 @@ library(factoextra)
 
 ## Loading the data
 We load growth, pigments, amino acid, fatty acid and stable isotope data from the GitHub server.
+
 For details on line and column headings please check the readme file.
 
 ```{r}
