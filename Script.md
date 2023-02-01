@@ -328,6 +328,7 @@ Stable isotopes
 
 ``` r
 # Let's identify grouping factors
+
 tissue=as.factor(substring(SI[,1], 1, 2))
 condition=as.factor(substring(SI[,1], 8, nchar(SI[,1])))
 
