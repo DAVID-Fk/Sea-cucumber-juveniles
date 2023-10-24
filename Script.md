@@ -1,6 +1,6 @@
 ### R Markdown
 
-This R Markdown document is made to support the findings of the paper "Sea cucumber juveniles show great potential to diversify shellfish aquaculture in temperate zones" by David et al. (2023).
+This R Markdown document is made to support the findings of the paper "Survival and growth of juvenile sea cucumbers Holothuria forskali in co-culture with shellfish implying low artificial workload for producers in Brittany (France)" by David et al. (2023).
 
 Preparing the toolbox
 ---------------------
@@ -73,7 +73,8 @@ SGRAqB=(log(mean(growth$Idweight[growth$Origin=="AQUA-B" & growth$Time=="J125"])
 Graphical representation
 ------------------------
 
-<img src="Script_files/figure-markdown_github/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+    ## quartz_off_screen 
+    ##                 2
 
 Pigments
 ========
@@ -161,7 +162,8 @@ summaryPIG=data.frame(M=aggregate(cbind(pigconc2, totpig), by=list(pig$condition
 Principal component analysis on pigment compositions of stomach contents
 ------------------------------------------------------------------------
 
-<img src="Script_files/figure-markdown_github/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+    ## quartz_off_screen 
+    ##                 2
 
 Note that the figure was further modified with a vectorial graphics editor to avoid labels superposition
 
@@ -177,12 +179,12 @@ Means and standard deviations
 AAcond=as.factor(substring(AA[,1], 8, nchar(AA[,1])))
 AAcond=factor(AAcond, levels=c("Ea","Eo","Po","Im", "Wild"))
 FAcond=as.factor(substring(FA[,1], 8, nchar(FA[,1])))
-FAcond=factor(FAcond, levels=c("Ea","Eo","Po","Im", "Wild"))
+FAcond=factor(FAcond, levels=c("Ea","Eo","Po","Im", "ImF", "Wild"))
   
 # Absolute fatty acid concentrations
 
 FAconc=FA[,-c(1:3, which(colnames(FA)=="C23.0"))]/FA[,which(colnames(FA)=="C23.0")]*FA[,which(colnames(FA)=="StdC23")]/FA[,which(colnames(FA)=="splMass")]
-totFA=rowSums(FAconc)
+totFA=rowSums(FAconc, na.rm=T)
   
 rownames(FAconc)=FA[,1]
 
@@ -226,25 +228,25 @@ waerden.test(AA$PrProt, AAcond, console=T)
     ## Po   -1.231053996      c
 
 ``` r
-waerden.test(totFA, FAcond, console=T)
+waerden.test(totFA[-which(FAcond=="ImF")], FAcond[-which(FAcond=="ImF")], console=T)
 ```
 
     ## 
-    ## Study: totFA ~ FAcond
+    ## Study: totFA[-which(FAcond == "ImF")] ~ FAcond[-which(FAcond == "ImF")]
     ## Van der Waerden (Normal Scores) test's
     ## 
     ## Value : 20.97475
     ## Pvalue: 0.000320341
     ## Degrees of Freedom:  4 
     ## 
-    ## FAcond,  means of the normal score
+    ## FAcond[-which(FAcond == "ImF")],  means of the normal score
     ## 
-    ##            totFA       std r
-    ## Ea    0.85087163 0.5341458 7
-    ## Eo    0.55111348 0.8542521 6
-    ## Im    0.09526856 0.3382648 8
-    ## Po   -0.31222735 0.7432921 7
-    ## Wild -1.30655655 0.3947079 6
+    ##      totFA..which.FAcond.....ImF...       std r
+    ## Ea                       0.85087163 0.5341458 7
+    ## Eo                       0.55111348 0.8542521 6
+    ## Im                       0.09526856 0.3382648 8
+    ## Po                      -0.31222735 0.7432921 7
+    ## Wild                    -1.30655655 0.3947079 6
     ## 
     ## Post Hoc Analysis
     ## 
@@ -264,7 +266,8 @@ waerden.test(totFA, FAcond, console=T)
 Graphical representation
 ------------------------
 
-<img src="Script_files/figure-markdown_github/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+    ## quartz_off_screen 
+    ##                 2
 
 Amino acids
 ===========
@@ -298,7 +301,10 @@ Summary Table
 ``` r
 # Let's convert absolute concentrations to relative abundances
 
-FAprct=FAconc/rowSums(FAconc)*100
+FAprct=FAconc/rowSums(FAconc, na.rm=T)*100
+FAprct[is.na(FAprct)]=0
+
+
 
 # Let's define categories of FA
   
@@ -307,7 +313,7 @@ SFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C14.0"), which(colnames(FAprct)=
 PUFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C18.2w6"), which(colnames(FAprct)=="C18.3w3"), which(colnames(FAprct)=="C18.4w3"), which(colnames(FAprct)=="C20.2w6"), which(colnames(FAprct)=="C20.4w6"), which(colnames(FAprct)=="C20.5w3"), which(colnames(FAprct)=="C22.5w6"), which(colnames(FAprct)=="C22.6w3"))])
 HUFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C20.4w6"), which(colnames(FAprct)=="C20.5w3"), which(colnames(FAprct)=="C22.5w6"), which(colnames(FAprct)=="C22.6w3"))])
 w3=rowSums(FAprct[, c(which(colnames(FAprct)=="C18.3w3"), which(colnames(FAprct)=="C18.4w3"), which(colnames(FAprct)=="C20.5w3"), which(colnames(FAprct)=="C22.6w3"))])
-w6=rowSums(FAprct[, c(which(colnames(FAprct)=="C18.2w6"), which(colnames(FAprct)=="C20.2w6"), which(colnames(FAprct)=="C20.4w6"), which(colnames(FAprct)=="C22.5w6"))])
+w6=rowSums(FAprct[, c(which(colnames(FAprct)=="C18.2w6"), which(colnames(FAprct)=="C20.2w6"), which(colnames(FAprct)=="C20.4w6"), which(colnames(FAprct)=="C22.5w6"))], na.rm=T)
 LCMUFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C20.1w9"), which(colnames(FAprct)=="C20.1w7"), which(colnames(FAprct)=="C22.1w11"), which(colnames(FAprct)=="C22.1w9"), which(colnames(FAprct)=="C23.1w9"), which(colnames(FAprct)=="C24.1w9"))])
 MUFA=rowSums(FAprct[, c(which(colnames(FAprct)=="C16.1w7"), which(colnames(FAprct)=="C18.1w9"), which(colnames(FAprct)=="C18.1w7"), which(colnames(FAprct)=="C20.1w9"), which(colnames(FAprct)=="C20.1w7"), which(colnames(FAprct)=="C22.1w11"), which(colnames(FAprct)=="C22.1w9"), which(colnames(FAprct)=="C23.1w9"), which(colnames(FAprct)=="C24.1w9"))])
 
