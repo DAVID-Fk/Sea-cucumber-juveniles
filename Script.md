@@ -73,8 +73,7 @@ SGRAqB=(log(mean(growth$Idweight[growth$Origin=="AQUA-B" & growth$Time=="J125"])
 Graphical representation
 ------------------------
 
-    ## quartz_off_screen 
-    ##                 2
+<img src="Script_files/figure-markdown_github/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
 
 Pigments
 ========
@@ -162,8 +161,7 @@ summaryPIG=data.frame(M=aggregate(cbind(pigconc2, totpig), by=list(pig$condition
 Principal component analysis on pigment compositions of stomach contents
 ------------------------------------------------------------------------
 
-    ## quartz_off_screen 
-    ##                 2
+<img src="Script_files/figure-markdown_github/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 Note that the figure was further modified with a vectorial graphics editor to avoid labels superposition
 
@@ -266,8 +264,7 @@ waerden.test(totFA[-which(FAcond=="ImF")], FAcond[-which(FAcond=="ImF")], consol
 Graphical representation
 ------------------------
 
-    ## quartz_off_screen 
-    ##                 2
+<img src="Script_files/figure-markdown_github/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 Amino acids
 ===========
