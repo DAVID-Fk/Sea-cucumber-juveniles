@@ -1,6 +1,6 @@
 ### R Markdown
 
-This R Markdown document is made to support the findings of the paper "Survival and growth of juvenile sea cucumbers Holothuria forskali in co-culture with shellfish implying low artificial workload for producers in Brittany (France)" by David et al. (2023).
+This R Markdown document is made to support the findings of the paper "Survival and growth of juvenile sea cucumbers Holothuria forskali in co-culture with shellfish implying low artificial workload for producers in Brittany (France)" by David et al. (2024).
 
 Preparing the toolbox
 ---------------------
