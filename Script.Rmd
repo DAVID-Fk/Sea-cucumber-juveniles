@@ -69,53 +69,6 @@ SGRAqB=(log(mean(growth$Idweight[growth$Origin=="AQUA-B" & growth$Time=="J125"])
 
 ```
 
-## Graphical representation
-
-```{r echo=FALSE, fig.width=3.5, fig.height=7, fig.align="center"}
-  
-initial=as.POSIXct("01/10/20", format = "%d/%m/%y")
-spl=as.POSIXct(growth$Date, format = "%d/%m/%y")
-lvlspl=as.POSIXct(levels(as.factor(spl)), format = "%Y-%m-%d")
-  
-#svg(file="fig2.svg", width=3.5, height=7)
-  
-  par(las=1, mar=c(4,5,2,2), mfrow=c(4,1), bty="n", oma=c(0,0,1,0))
-  
-  plot(1, 1, type="n", xlim=c(initial, max(lvlspl)), ylim=c(0, 60), ylab="Individuals weight (g)", xaxt="n", xlab="")
-  axis.POSIXct(1, at=c(initial, lvlspl[c(1, 3, 6)]), format ="%d/%m/%y", labels=T, las=1)
-  text(initial +3000000, 50, "Survival : 93% \nInitial n = 80", cex=0.8, adj=c(0,1))
-  text(mean(lvlspl[c(1, 3)]), 25, bquote("SGR ="~ "0.28 %" ~ d^-1), cex=0.7, adj=0.5)
-  text(mean(lvlspl[c(3, 6)]), 40, bquote("SGR ="~ "0.88 %" ~ d^-1), cex=0.7, adj=0.5)
-  boxplot(growth$Idweight[growth$Origin=="Plouguerneau"]~spl[growth$Origin=="Plouguerneau"], at=lvlspl[c(1, 3, 6)], add=T, boxwex=2000000, ann=F, xaxt="n", yaxt="n")
-  title(main="Co-cultured with European abalones \n (Ea condition)", cex.main=0.9)
-    
-  plot(1, 1, type="n", xlim=c(initial, max(lvlspl)), ylim=c(0, 60), ylab="Individuals weight (g)", xaxt="n", xlab="")
-  axis.POSIXct(1, labels=T, at=c(initial, lvlspl[c(2,9)]), format ="%d/%m/%y", las=1)
-  text(initial +3000000, 50, "Survival : 100% \nInitial n = 18", cex=0.8, adj=c(0,1))
-  text(mean(lvlspl[c(2, 9)]), 40, bquote("SGR ="~ "0.94 %" ~ d^-1), cex=0.7, adj=0.5)
-  boxplot(growth$Idweight[growth$Origin=="Brest"]~spl[growth$Origin=="Brest"], at=lvlspl[c(2, 9)], add=T, boxwex=2000000, ann=F, xaxt="n", yaxt="n")
-  title(main="Co-cultured underneath European flat oysters \n (Eo condition)", cex.main=0.9)
-  
-  plot(1, 1, type="n", xlim=c(initial, max(lvlspl)), ylim=c(0, 60), ylab="Individuals weight (g)", xaxt="n", xlab="")
-  axis.POSIXct(1, at=c(initial, lvlspl[c(4,8)]), format ="%d/%m/%y", labels=T, las=1)
-  text(initial +3000000, 50, "Survival : 99% \nInitial n = 81", cex=0.8, adj=c(0,1))
-  text(mean(lvlspl[c(4, 8)]), 25, bquote("SGR ="~ "0.24 %" ~ d^-1), cex=0.7, adj=0.5)
-  boxplot(growth$Idweight[growth$Origin=="Cancale"]~spl[growth$Origin=="Cancale"], at=lvlspl[c(4, 8)], add=T, boxwex=2000000, ann=F, xaxt="n", yaxt="n")
-  title(main="Co-cultured underneath Pacific oysters \n (Po condition)", cex.main=0.9)
-  
-  plot(1, 1, type="n", xlim=c(initial, max(lvlspl)), ylim=c(0, 60), ylab="Individuals weight (g)", xaxt="n", xlab="")
-  axis.POSIXct(1, at=c(initial, lvlspl[c(5,7)]), format ="%d/%m/%y", labels=T, las=1)
-  text(initial +3000000, 50, "Survival : 84% \nInitial n = 240", cex=0.8, adj=c(0,1))
-  text(mean(lvlspl[c(5, 7)]), 25, bquote("SGR ="~ "2.76 %" ~ d^-1), cex=0.7, adj=0.5)
-  boxplot(growth$Idweight[growth$Origin=="AQUA-B"]~spl[growth$Origin=="AQUA-B"], at=lvlspl[c(5, 7)], add=T, boxwex=2000000, ann=F, xaxt="n", yaxt="n")
-  title(main="Indoor monocultured \n (Im condition)", cex.main=0.9)
-  
-#dev.off()
-
-```
-
-
-
 # Pigments
 ##Total pigments description
 ```{r}
@@ -138,10 +91,10 @@ waerden.test(totpig[-c(1:2)], pig$condition[-c(1:2)], console=T)
 ## Total pigments visualisation
 ```{r echo=FALSE, fig.width=6, fig.height=4, fig.align="center"}
 
-#pdf(file="fig3.pdf", width=5, height=4)
+#pdf(file="fig2.pdf", width=5, height=4)
 
   par(las=1, mar=c(5,5,1,2), bty="n", mfrow=c(1,1))
-  boxplot(totpig~pig$condition, xlab="Condition", ylab=expression(paste("Pigment concentration (mg g d", w^-1, ")")), names=c("Ea", "Eo", "Po", "Im","Im feed"), ylim=c(0, 110))
+  boxplot(totpig~pig$condition, xlab="Condition", ylab=expression(paste("Pigment concentration (mg g d", w^-1, ")")), names=c("EA", "EO", "PO", "IM","IM feed"), ylim=c(0, 110))
   text(1:5, tapply(totpig, pig$condition, max)+8, labels=c("b", "c", "d", "a", ""), font=1, cex=1.5)
 
 #dev.off()
@@ -167,7 +120,7 @@ summaryPIG=data.frame(M=aggregate(cbind(pigconc2, totpig), by=list(pig$condition
 
 acp=dudi.pca(pigconc2[-c(1:2),], scannf = F, nf = 2, center=T, scale=T)
 
-#svg(file="fig4.svg", width=7.5, height=6)
+#svg(file="fig3.svg", width=7.5, height=6)
 
   par(las=1, mar=c(2,2,1,2), bty="n", mfrow=c(1,1))
 
@@ -208,9 +161,9 @@ Note that the figure was further modified with a vectorial graphics editor to av
 # Let's define grouping factors
 
 AAcond=as.factor(substring(AA[,1], 8, nchar(AA[,1])))
-AAcond=factor(AAcond, levels=c("Ea","Eo","Po","Im", "Wild"))
+AAcond=factor(AAcond, levels=c("EA","EO","PO","IM", "Wild"))
 FAcond=as.factor(substring(FA[,1], 8, nchar(FA[,1])))
-FAcond=factor(FAcond, levels=c("Ea","Eo","Po","Im", "ImF", "Wild"))
+FAcond=factor(FAcond, levels=c("EA","EO","PO","IM", "IMF", "Wild"))
   
 # Absolute fatty acid concentrations
 
@@ -222,7 +175,7 @@ rownames(FAconc)=FA[,1]
 # Let's evidence statistical differences on total AA and total FA
 
 waerden.test(AA$PrProt, AAcond, console=T)
-waerden.test(totFA[-which(FAcond=="ImF")], FAcond[-which(FAcond=="ImF")], console=T)
+waerden.test(totFA[-which(FAcond=="IMF")], FAcond[-which(FAcond=="IMF")], console=T)
 
 ```
 
@@ -230,15 +183,15 @@ waerden.test(totFA[-which(FAcond=="ImF")], FAcond[-which(FAcond=="ImF")], consol
 ## Graphical representation
 ```{r echo=FALSE, fig.width=5, fig.height=7, fig.align="center"}
 
-#pdf(file="fig5.pdf", width=5, height=7)
+#pdf(file="fig4.pdf", width=5, height=7)
 
   par(las=1, mar=c(4,5,1,2), mfrow=c(2,1), bty="n", oma=c(1,0,1,0))
   
   boxplot(AA$PrProt*10~AAcond, xlab="", ylab=expression(paste("Amino acids concentration (mg g d", w^-1, ")")), ylim=c(0,600), cex.lab=0.9) 
   text(1:5, tapply(AA$PrProt*10, AAcond, max)+50, labels=c("b", "b", "c", "b", "a"), font=1, cex=1.5)
 
-  boxplot(totFA~FAcond, xlab="Condition", ylab=expression(paste("Fatty acids concentration (mg g d", w^-1, ")")), ylim=c(0,17), cex.lab=0.9)
-  text(1:5, tapply(totFA, FAcond, max)+1.5, labels=c("a", "ab", "c", "bc", "d"), font=1, cex=1.5)
+  boxplot(totFA[-which(FAcond=="IMF")]~factor(as.character(FAcond[-which(FAcond=="IMF")]), levels=c("EA","EO","PO","IM", "Wild")), xlab="Condition", ylab=expression(paste("Fatty acids concentration (mg g d", w^-1, ")")), ylim=c(0,17), cex.lab=0.9)
+  text(1:5, tapply(totFA[-which(FAcond=="IMF")], factor(as.character(FAcond[-which(FAcond=="IMF")]), levels=c("EA","EO","PO","IM", "Wild")), max)+1.5, labels=c("a", "ab", "c", "bc", "d"), font=1, cex=1.5)
 
 #dev.off()
 
@@ -266,7 +219,7 @@ summaryAA=data.frame(M=aggregate(cbind(AA[,-c(1:3)], EAA, AA$PrProt), by=list(AA
   varPCA=get_pca_var(acp)
   
  
-#svg(file="fig6.svg", width=7.5, height=6)
+#svg(file="fig5.svg", width=7.5, height=6)
 
   par(las=1, mar=c(2,2,1,2), bty="n", mfrow=c(1,1))
 
@@ -336,7 +289,7 @@ summaryFA=data.frame(M=aggregate(cbind(FAprct, brFA, SFA, MUFA, LCMUFA, PUFA, HU
    acp=dudi.pca(FAprct[-which(substring(rownames(FAprct), 1, 4)=="Feed"),], scannf = F, nf = 2, center=T, scale=T)
   varPCA=get_pca_var(acp)
   
-#svg(file="fig7.svg", width=7.5, height=6)
+#svg(file="fig6.svg", width=7.5, height=6)
 
   par(las=1, mar=c(2,2,1,2), bty="n", mfrow=c(1,1))
 
@@ -353,7 +306,7 @@ summaryFA=data.frame(M=aggregate(cbind(FAprct, brFA, SFA, MUFA, LCMUFA, PUFA, HU
   text(acp$co[,1][which(varPCA$contrib[,1]>100/nrow(varPCA$contrib)*2)]*6.8, acp$co[,2][which(varPCA$contrib[,1]>100/nrow(varPCA$contrib)*2)]*6.8, labels=substring(names(which(varPCA$contrib[,1]>100/nrow(varPCA$contrib)*2)), 2, nchar(names(which(varPCA$contrib[,1]>100/nrow(varPCA$contrib)*2)))), col="grey40")
   text(acp$co[,1][which(varPCA$contrib[,2]>100/nrow(varPCA$contrib)*2)]*6.2, acp$co[,2][which(varPCA$contrib[,2]>100/nrow(varPCA$contrib)*2)]*6.2, labels=substring(names(which(varPCA$contrib[,2]>100/nrow(varPCA$contrib)*2)), 2, nchar(names(which(varPCA$contrib[,2]>100/nrow(varPCA$contrib)*2)))), col="grey40")
 
-  a=ordihull(acp$li, groups=FAcond[-which(FAcond=="ImF")], lty=4, label=F, display=c("sites"))
+  a=ordihull(acp$li, groups=FAcond[-which(FAcond=="IMF")], lty=4, label=F, display=c("sites"))
   points(acp$li[, 1], acp$li[, 2], pch=23, col="grey40", bg=c("grey80", "grey80", "grey80", "grey20", "white")[FAcond[-which(FAcond=="ImF")]], cex=1.5)
 
   centroid=t(summary(a))
@@ -398,7 +351,7 @@ tapply(SI$d15N, paste(tissue, condition), sd)
 
 ```{r echo=FALSE, fig.width=7.5, fig.height=6, fig.align="center"}
 
-#pdf(file="fig8.pdf", width=7.5, height=6)
+#svg(file="fig7.svg", width=7.5, height=6)
 
   par(las=1, mar=c(5,5,1,2), bty="n", mfrow=c(1,1), cex.lab=1.5)
 

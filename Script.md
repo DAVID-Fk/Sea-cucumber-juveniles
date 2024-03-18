@@ -70,11 +70,6 @@ SGRcan=(log(mean(growth$Idweight[growth$Origin=="Cancale" & growth$Time=="J133"]
 SGRAqB=(log(mean(growth$Idweight[growth$Origin=="AQUA-B" & growth$Time=="J125"]))-log(mean(growth$Idweight[growth$Origin=="AQUA-B" & growth$Time=="J0"])))*100/125
 ```
 
-Graphical representation
-------------------------
-
-<img src="Script_files/figure-markdown_github/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
-
 Pigments
 ========
 
@@ -93,14 +88,14 @@ totpig=rowSums(pigconc)
 tapply(totpig, pig$condition, mean)
 ```
 
-    ##      1-Ea      2-Eo      3-Po      4-Im 5-Im food 
+    ##      1-EA      2-EO      3-PO      4-IM 5-IM food 
     ## 25.396815  2.843854  1.783240 68.159811 19.194994
 
 ``` r
 tapply(totpig, pig$condition, sd)
 ```
 
-    ##       1-Ea       2-Eo       3-Po       4-Im  5-Im food 
+    ##       1-EA       2-EO       3-PO       4-IM  5-IM food 
     ## 12.8901903  0.3767946  0.5174520 24.5875214  3.1175125
 
 ``` r
@@ -120,10 +115,10 @@ waerden.test(totpig[-c(1:2)], pig$condition[-c(1:2)], console=T)
     ## pig$condition[-c(1:2)],  means of the normal score
     ## 
     ##      totpig..c.1.2..       std r
-    ## 1-Ea       0.1445689 0.2838820 7
-    ## 2-Eo      -0.4347858 0.1651588 3
-    ## 3-Po      -1.0753353 0.4314144 7
-    ## 4-Im       0.9774653 0.4859613 8
+    ## 1-EA       0.1445689 0.2838820 7
+    ## 2-EO      -0.4347858 0.1651588 3
+    ## 3-PO      -1.0753353 0.4314144 7
+    ## 4-IM       0.9774653 0.4859613 8
     ## 
     ## Post Hoc Analysis
     ## 
@@ -134,15 +129,15 @@ waerden.test(totpig[-c(1:2)], pig$condition[-c(1:2)], console=T)
     ## Means of the normal score
     ## 
     ##           score groups
-    ## 4-Im  0.9774653      a
-    ## 1-Ea  0.1445689      b
-    ## 2-Eo -0.4347858      c
-    ## 3-Po -1.0753353      d
+    ## 4-IM  0.9774653      a
+    ## 1-EA  0.1445689      b
+    ## 2-EO -0.4347858      c
+    ## 3-PO -1.0753353      d
 
 Total pigments visualisation
 ----------------------------
 
-<img src="Script_files/figure-markdown_github/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="Script_files/figure-markdown_github/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 Summary of pigments table
 -------------------------
@@ -161,7 +156,7 @@ summaryPIG=data.frame(M=aggregate(cbind(pigconc2, totpig), by=list(pig$condition
 Principal component analysis on pigment compositions of stomach contents
 ------------------------------------------------------------------------
 
-<img src="Script_files/figure-markdown_github/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="Script_files/figure-markdown_github/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 Note that the figure was further modified with a vectorial graphics editor to avoid labels superposition
 
@@ -175,9 +170,9 @@ Means and standard deviations
 # Let's define grouping factors
 
 AAcond=as.factor(substring(AA[,1], 8, nchar(AA[,1])))
-AAcond=factor(AAcond, levels=c("Ea","Eo","Po","Im", "Wild"))
+AAcond=factor(AAcond, levels=c("EA","EO","PO","IM", "Wild"))
 FAcond=as.factor(substring(FA[,1], 8, nchar(FA[,1])))
-FAcond=factor(FAcond, levels=c("Ea","Eo","Po","Im", "ImF", "Wild"))
+FAcond=factor(FAcond, levels=c("EA","EO","PO","IM", "IMF", "Wild"))
   
 # Absolute fatty acid concentrations
 
@@ -202,10 +197,10 @@ waerden.test(AA$PrProt, AAcond, console=T)
     ## AAcond,  means of the normal score
     ## 
     ##         AA.PrProt       std r
-    ## Ea    0.008096704 0.4807686 5
-    ## Eo    0.080539828 0.3807157 5
-    ## Im   -0.115634987 0.6194758 5
-    ## Po   -1.231053996 0.3950558 5
+    ## EA    0.008096704 0.4807686 5
+    ## EO    0.080539828 0.3807157 5
+    ## IM   -0.115634987 0.6194758 5
+    ## PO   -1.231053996 0.3950558 5
     ## Wild  1.258052451 0.3553443 5
     ## 
     ## Post Hoc Analysis
@@ -220,30 +215,30 @@ waerden.test(AA$PrProt, AAcond, console=T)
     ## 
     ##             score groups
     ## Wild  1.258052451      a
-    ## Eo    0.080539828      b
-    ## Ea    0.008096704      b
-    ## Im   -0.115634987      b
-    ## Po   -1.231053996      c
+    ## EO    0.080539828      b
+    ## EA    0.008096704      b
+    ## IM   -0.115634987      b
+    ## PO   -1.231053996      c
 
 ``` r
-waerden.test(totFA[-which(FAcond=="ImF")], FAcond[-which(FAcond=="ImF")], console=T)
+waerden.test(totFA[-which(FAcond=="IMF")], FAcond[-which(FAcond=="IMF")], console=T)
 ```
 
     ## 
-    ## Study: totFA[-which(FAcond == "ImF")] ~ FAcond[-which(FAcond == "ImF")]
+    ## Study: totFA[-which(FAcond == "IMF")] ~ FAcond[-which(FAcond == "IMF")]
     ## Van der Waerden (Normal Scores) test's
     ## 
     ## Value : 20.97475
     ## Pvalue: 0.000320341
     ## Degrees of Freedom:  4 
     ## 
-    ## FAcond[-which(FAcond == "ImF")],  means of the normal score
+    ## FAcond[-which(FAcond == "IMF")],  means of the normal score
     ## 
-    ##      totFA..which.FAcond.....ImF...       std r
-    ## Ea                       0.85087163 0.5341458 7
-    ## Eo                       0.55111348 0.8542521 6
-    ## Im                       0.09526856 0.3382648 8
-    ## Po                      -0.31222735 0.7432921 7
+    ##      totFA..which.FAcond.....IMF...       std r
+    ## EA                       0.85087163 0.5341458 7
+    ## EO                       0.55111348 0.8542521 6
+    ## IM                       0.09526856 0.3382648 8
+    ## PO                      -0.31222735 0.7432921 7
     ## Wild                    -1.30655655 0.3947079 6
     ## 
     ## Post Hoc Analysis
@@ -255,16 +250,16 @@ waerden.test(totFA[-which(FAcond=="ImF")], FAcond[-which(FAcond=="ImF")], consol
     ## Means of the normal score
     ## 
     ##            score groups
-    ## Ea    0.85087163      a
-    ## Eo    0.55111348     ab
-    ## Im    0.09526856     bc
-    ## Po   -0.31222735      c
+    ## EA    0.85087163      a
+    ## EO    0.55111348     ab
+    ## IM    0.09526856     bc
+    ## PO   -0.31222735      c
     ## Wild -1.30655655      d
 
 Graphical representation
 ------------------------
 
-<img src="Script_files/figure-markdown_github/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+<img src="Script_files/figure-markdown_github/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
 Amino acids
 ===========
@@ -285,7 +280,7 @@ summaryAA=data.frame(M=aggregate(cbind(AA[,-c(1:3)], EAA, AA$PrProt), by=list(AA
 Principal component analysis on amino acid compositions of body wall
 --------------------------------------------------------------------
 
-<img src="Script_files/figure-markdown_github/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="Script_files/figure-markdown_github/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 Note that the figure was further modified with a vectorial graphics editor to avoid labels superposition
 
@@ -322,7 +317,7 @@ summaryFA=data.frame(M=aggregate(cbind(FAprct, brFA, SFA, MUFA, LCMUFA, PUFA, HU
 Principal component analysis on fatty acid compositions of body wall
 --------------------------------------------------------------------
 
-<img src="Script_files/figure-markdown_github/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="Script_files/figure-markdown_github/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 Note that the figure was further modified with a vectorial graphics editor to avoid labels superposition
 
@@ -340,14 +335,14 @@ condition=as.factor(substring(SI[,1], 8, nchar(SI[,1])))
 tapply(SI$d13C, paste(tissue, condition), mean)
 ```
 
-    ##   Al Im   BW Ea   BW Eo   BW Im   BW Po BW Wild   SC Im 
+    ##   Al IM   BW EA   BW EO   BW IM   BW PO BW Wild   SC IM 
     ## -13.665 -15.620 -18.656 -13.250 -17.840 -15.886 -14.410
 
 ``` r
 tapply(SI$d13C, paste(tissue, condition), sd)
 ```
 
-    ##      Al Im      BW Ea      BW Eo      BW Im      BW Po    BW Wild      SC Im 
+    ##      Al IM      BW EA      BW EO      BW IM      BW PO    BW Wild      SC IM 
     ## 0.04949747 0.87900512 0.51007843 0.68322763 1.29682304 0.30402303 0.71295161
 
 ``` r
@@ -356,17 +351,17 @@ tapply(SI$d13C, paste(tissue, condition), sd)
 tapply(SI$d15N, paste(tissue, condition), mean)
 ```
 
-    ##   Al Im   BW Ea   BW Eo   BW Im   BW Po BW Wild   SC Im 
+    ##   Al IM   BW EA   BW EO   BW IM   BW PO BW Wild   SC IM 
     ##  11.890   9.036  10.574  13.880  11.058  11.326  12.732
 
 ``` r
 tapply(SI$d15N, paste(tissue, condition), sd)
 ```
 
-    ##      Al Im      BW Ea      BW Eo      BW Im      BW Po    BW Wild      SC Im 
+    ##      Al IM      BW EA      BW EO      BW IM      BW PO    BW Wild      SC IM 
     ## 0.02828427 0.56283212 0.30907928 1.10097684 0.45455473 0.33440993 0.59145583
 
 Graphical representation (biplot 13C-15N)
 -----------------------------------------
 
-<img src="Script_files/figure-markdown_github/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
+<img src="Script_files/figure-markdown_github/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
